@@ -1,10 +1,10 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Augustine {
     public static void main(String[] args) {
         Scanner line = new Scanner(System.in);
-        String[] tasks = new String[100];
-        int taskCount = 0;
+        ArrayList<Task> tasks = new ArrayList<>();
         System.out.println("____________________________________________________________");
         System.out.println(" Hello! I'm Augustine");
         System.out.println(" What can I do for you?");
@@ -18,40 +18,91 @@ public class Augustine {
                 System.out.println(" Bye. Hope to see you again soon!");
                 System.out.println("____________________________________________________________");
                 break;
+
             } else if (input.equalsIgnoreCase("list")) {
                 System.out.println("____________________________________________________________");
-                if (taskCount == 0) {
+                if (tasks.isEmpty()) {
                     System.out.println("No tasks added yet!");
                 } else {
-                    for (int i = 0; i < taskCount; i += 1) {
-                        System.out.println(" " + (i + 1) + ". " + tasks[i]);
+                    System.out.println("Here are the tasks in your list:");
+                    for (int i = 0; i < tasks.size(); i++) {
+                        System.out.println(" " + (i + 1) + ". " + tasks.get(i));
                     }
-                    System.out.println("____________________________________________________________");
                 }
+                System.out.println("____________________________________________________________");
 
-            } else if (input.toLowerCase().startsWith("add")) {
-                if (taskCount < 100) {
-                    String task = input.substring(4).trim(); // remove "add " prefix
-                    tasks[taskCount] = input;
-                    taskCount += 1;
+            } else if (input.toLowerCase().startsWith("add ")) {
+                String description = input.substring(4).trim();
+                if (!description.isEmpty()) {
+                    Task task = new Task(description);
+                    tasks.add(task);
                     System.out.println("____________________________________________________________");
-                    System.out.println(" added:" + input);
+                    System.out.println(" added: " + description);
                     System.out.println("____________________________________________________________");
                 } else {
-                    System.out.println("____________________________________________________________");
-                    System.out.println("Task list is full! Cannot add anymore tasks");
-                    System.out.println("____________________________________________________________");
+                    System.out.println("Please provide a task description!");
                 }
-            } else {
 
+            } else if (input.toLowerCase().startsWith("mark ")) {
+                try {
+                    int index = Integer.parseInt(input.substring(5).trim()) - 1;
+                    if (index < 0 || index >= tasks.size()) {
+                        System.out.println("____________________________________________________________");
+                        System.out.println("This task doesn't exist!");
+                        System.out.println("____________________________________________________________");
+                        continue;
+                    }
+
+                    Task task = tasks.get(index);
+                    if (task.getStatusIcon().equals("X")) {
+                        System.out.println("____________________________________________________________");
+                        System.out.println("This item is already marked!");
+                        System.out.println("____________________________________________________________");
+                    } else {
+                        task.markAsDone();
+                        System.out.println("____________________________________________________________");
+                        System.out.println("Nice! I've marked this task as done:");
+                        System.out.println("  " + task);
+                        System.out.println("____________________________________________________________");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Please provide a valid task number!");
+                }
+
+            } else if (input.toLowerCase().startsWith("unmark ")) {
+                try {
+                    int index = Integer.parseInt(input.substring(7).trim()) - 1;
+                    if (index < 0 || index >= tasks.size()) {
+                        System.out.println("____________________________________________________________");
+                        System.out.println("This task doesn't exist!");
+                        System.out.println("____________________________________________________________");
+                        continue;
+                    }
+
+                    Task task = tasks.get(index);
+                    if (task.getStatusIcon().equals(" ")) {
+                        System.out.println("____________________________________________________________");
+                        System.out.println("This item is already unmarked!");
+                        System.out.println("____________________________________________________________");
+                    } else {
+                        task.markAsNotDone();
+                        System.out.println("____________________________________________________________");
+                        System.out.println("OK, I've marked this task as not done yet:");
+                        System.out.println("  " + task);
+                        System.out.println("____________________________________________________________");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Please provide a valid task number!");
+                }
+
+            } else {
+                // Echo any other input
                 System.out.println("____________________________________________________________");
                 System.out.println(" " + input);
                 System.out.println("____________________________________________________________");
-
             }
         }
-        line.close();
 
+        line.close();
     }
 }
-
