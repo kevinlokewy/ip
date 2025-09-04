@@ -5,20 +5,14 @@ public class Augustine {
     public static void main(String[] args) {
         Scanner line = new Scanner(System.in);
         ArrayList<Task> tasks = new ArrayList<>();
-        System.out.println("____________________________________________________________");
-        System.out.println(" Hello! I'm Augustine");
-        System.out.println(" What can I do for you?");
-        System.out.println("____________________________________________________________");
+        printGreeting();
 
         while (true) {
             String input = line.nextLine().trim();
 
             if (input.toLowerCase().contains("bye")) {
-                System.out.println("____________________________________________________________");
-                System.out.println(" Bye. Hope to see you again soon!");
-                System.out.println("____________________________________________________________");
+                printBye();
                 break;
-
             } else if (input.equalsIgnoreCase("list")) {
                 System.out.println("____________________________________________________________");
                 if (tasks.isEmpty()) {
@@ -36,9 +30,7 @@ public class Augustine {
                 if (!description.isEmpty()) {
                     Task task = new Task(description);
                     tasks.add(task);
-                    System.out.println("____________________________________________________________");
-                    System.out.println(" added: " + description);
-                    System.out.println("____________________________________________________________");
+                    printDescription(description);
                 } else {
                     System.out.println("Please provide a task description!");
                 }
@@ -97,12 +89,42 @@ public class Augustine {
 
             } else {
                 // Echo any other input
-                System.out.println("____________________________________________________________");
-                System.out.println(" " + input);
-                System.out.println("____________________________________________________________");
+                printEcho(input);
             }
         }
 
         line.close();
+    }
+
+    private static void printEcho(String input) {
+        System.out.println("____________________________________________________________");
+        System.out.println(" " + input);
+        System.out.println("____________________________________________________________");
+    }
+
+    private static void printDescription(String description) {
+        System.out.println("____________________________________________________________");
+        System.out.println(" added: " + description);
+        System.out.println("____________________________________________________________");
+    }
+
+    private static void printGreeting() {
+        System.out.println("____________________________________________________________");
+        System.out.println(" Hello! I'm Augustine");
+        System.out.println(" What can I do for you?");
+        System.out.println("____________________________________________________________");
+    }
+
+    private static void printBye() {
+        System.out.println("____________________________________________________________");
+        System.out.println(" Bye. Hope to see you again soon!");
+        System.out.println("____________________________________________________________");
+    }
+
+    private static void printGreeting(String x, String x1) {
+        System.out.println("____________________________________________________________");
+        System.out.println(x);
+        System.out.println(x1);
+        System.out.println("____________________________________________________________");
     }
 }
