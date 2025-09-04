@@ -27,35 +27,37 @@ public class Augustine {
                 return; // exit program
 
             case "list":
-                printTaskList(tasks);
+                printTaskList(tasks);  // handles "list" command
                 break;
 
             case "todo":
-                handleToDo(argument, tasks);
+                handleToDo(argument, tasks);  // handles "todo" command
                 break;
 
             case "deadline":
-                handleDeadline(argument, tasks);
+                handleDeadline(argument, tasks); // handles "deadline" command
                 break;
 
             case "event":
-                handleEvent(argument, tasks);
+                handleEvent(argument, tasks);  // handles "event" command
                 break;
 
             case "mark":
-                handleMark(argument, tasks);
+                handleMark(argument, tasks); // handles "mark" command
                 break;
 
             case "unmark":
-                handleUnmark(argument, tasks);
+                handleUnmark(argument, tasks);  // handles "unmark" command
                 break;
 
             default:
-                printEcho(input);
+                printEcho(input);   
                 break;
             }
         }
     }
+
+    // HELPER FUNCTIONS
 
     private static void handleUnmark(String argument, ArrayList<Task> tasks) {
         if (argument.isEmpty()) {
