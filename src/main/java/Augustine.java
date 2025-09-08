@@ -13,7 +13,9 @@ public class Augustine {
 
         while (true) {
             String input = line.nextLine().trim();
-            if (input.isEmpty()) continue;
+            if (input.isEmpty()) {
+                continue;
+            }
 
             // Split into command and argument
             String[] parts = splitTask(input);
@@ -51,7 +53,7 @@ public class Augustine {
                 break;
 
             default:
-                printEcho(input);   
+                printErrorMessage(input);
                 break;
             }
         }
@@ -182,9 +184,9 @@ public class Augustine {
         return input.split(" ", 2);
     }
 
-    private static void printEcho(String input) {
+    private static void printErrorMessage(String input) {
         System.out.println("____________________________________________________________");
-        System.out.println(" " + input);
+        System.out.println("Sorry! I don't understand that command. Try these commands instead: todo, deadline, event, list, mark, unmark");
         System.out.println("____________________________________________________________");
     }
 
@@ -210,11 +212,5 @@ public class Augustine {
         System.out.println(" Bye. Hope to see you again soon!");
         System.out.println("____________________________________________________________");
     }
-
-    private static void printGreeting(String x, String x1) {
-        System.out.println("____________________________________________________________");
-        System.out.println(x);
-        System.out.println(x1);
-        System.out.println("____________________________________________________________");
-    }
 }
+
