@@ -13,56 +13,61 @@ public class Augustine {
 
         while (true) {
             String input = line.nextLine().trim();
-            if (input.isEmpty()) continue;
+            if (input.isEmpty()) {
+                continue;
+            }
 
             // Split into command and argument
             String[] parts = splitTask(input);
             String command = getFirstWord(parts);
             String argument = parts.length > 1 ? parts[1].trim() : "";
 
-            switch (command) {
-            case "bye":
-                printBye();
-                line.close();
-                return; // exit program
+            try {
+                switch (command) {
+                case "bye":
+                    printBye();
+                    line.close();
+                    return; // exit program
 
-            case "list":
-                printTaskList(tasks);  // handles "list" command
-                break;
+                case "list":
+                    printTaskList(tasks);  // handles "list" command
+                    break;
 
-            case "todo":
-                handleToDo(argument, tasks);  // handles "todo" command
-                break;
+                case "todo":
+                    handleToDo(argument, tasks);  // handle "todo" command
+                    break;
 
-            case "deadline":
-                handleDeadline(argument, tasks); // handles "deadline" command
-                break;
+                case "deadline":
+                    handleDeadline(argument, tasks); // handle "deadline" command
+                    break;
 
-            case "event":
-                handleEvent(argument, tasks);  // handles "event" command
-                break;
+                case "event":
+                    handleEvent(argument, tasks);  // handle "event" command
+                    break;
 
-            case "mark":
-                handleMark(argument, tasks); // handles "mark" command
-                break;
+                case "mark":
+                    handleMark(argument, tasks); // handle "mark" command
+                    break;
 
-            case "unmark":
-                handleUnmark(argument, tasks);  // handles "unmark" command
-                break;
+                case "unmark":
+                    handleUnmark(argument, tasks);  // handle "unmark" command
+                    break;
 
-            default:
-                printEcho(input);   
-                break;
+                default:
+                    throw new AugustineException("I don't understand that command. Try: todo, deadline, event, list, mark, unmark");
+                }
+            } catch (AugustineException e) {
+                printErrorMessage(e.getMessage());
             }
         }
     }
 
     // HELPER FUNCTIONS
 
-    private static void handleUnmark(String argument, ArrayList<Task> tasks) {
+    private static void handleUnmark(String argument, ArrayList<Task> tasks) throws AugustineException{
         if (argument.isEmpty()) {
-            System.out.println("Please provide a task number!");
-            return;
+            throw new AugustineException("Please provide a task number!");
+
         }
         try {
             int index = Integer.parseInt(argument) - 1;
@@ -86,14 +91,13 @@ public class Augustine {
                 System.out.println("____________________________________________________________");
             }
         } catch (NumberFormatException e) {
-            System.out.println("Please provide a valid task number!");
+            throw new AugustineException("Please provide a valid task number!");
         }
     }
 
-    private static void handleMark(String argument, ArrayList<Task> tasks) {
+    private static void handleMark(String argument, ArrayList<Task> tasks) throws AugustineException{
         if (argument.isEmpty()) {
-            System.out.println("Please provide a task number!");
-            return;
+            throw new AugustineException("Please provide a task number!");
         }
         try {
             int index = Integer.parseInt(argument) - 1;
@@ -118,12 +122,12 @@ public class Augustine {
                 System.out.println("____________________________________________________________");
             }
         } catch (NumberFormatException e) {
-            System.out.println("Please provide a valid task number!");
+            throw new AugustineException("Please provide a valid task number!");
         }
     }
 
 
-    private static void handleEvent(String argument, ArrayList<Task> tasks) {
+    private static void handleEvent(String argument, ArrayList<Task> tasks) throws AugustineException {
         if (!argument.isEmpty() && argument.contains("/from") && argument.contains("/to")) {
             String[] eventParts = argument.split("/from", 2);
             String description = eventParts[0].trim();
@@ -134,11 +138,11 @@ public class Augustine {
             tasks.add(task);
             printDescription(task, tasks.size());
         } else {
-            System.out.println("Usage: event <description> /from <start> /to <end>");
+            throw new AugustineException("Please provide an event in the format: event <description> /from <start> /to <end>");
         }
     }
 
-    private static void handleDeadline(String argument, ArrayList<Task> tasks) {
+    private static void handleDeadline(String argument, ArrayList<Task> tasks) throws AugustineException {
         if (!argument.isEmpty() && argument.contains("/by")) {
             String[] deadlineParts = argument.split("/by", 2);
             String description = deadlineParts[0].trim();
@@ -147,17 +151,17 @@ public class Augustine {
             tasks.add(task);
             printDescription(task, tasks.size());
         } else {
-            System.out.println("Usage: deadline <description> /by <time>");
+            throw new AugustineException("Please provide a deadline in the format: deadline <description> /by <time>");
         }
     }
 
-    private static void handleToDo(String argument, ArrayList<Task> tasks) {
+    private static void handleToDo(String argument, ArrayList<Task> tasks) throws AugustineException {
         if (!argument.isEmpty()) {
             Task task = new Todo(argument);
             tasks.add(task);
             printDescription(task, tasks.size());
         } else {
-            System.out.println("Please provide a task description!");
+            throw new AugustineException("Please provide a task description!");
         }
     }
 
@@ -182,9 +186,9 @@ public class Augustine {
         return input.split(" ", 2);
     }
 
-    private static void printEcho(String input) {
+    private static void printErrorMessage(String message) {
         System.out.println("____________________________________________________________");
-        System.out.println(" " + input);
+        System.out.println(message);
         System.out.println("____________________________________________________________");
     }
 
@@ -210,11 +214,5 @@ public class Augustine {
         System.out.println(" Bye. Hope to see you again soon!");
         System.out.println("____________________________________________________________");
     }
-
-    private static void printGreeting(String x, String x1) {
-        System.out.println("____________________________________________________________");
-        System.out.println(x);
-        System.out.println(x1);
-        System.out.println("____________________________________________________________");
-    }
 }
+
