@@ -1,5 +1,7 @@
+package augustine;
+
 public class Task {
-    private String description;
+    private final String description;
     private boolean isDone;
 
     public Task(String description) {
@@ -20,11 +22,13 @@ public class Task {
     }
 
     public String getDescription() {
+
         return description;
     }
+
     @Override
     public String toString() {
-        return "[" + getStatusIcon() + "] " + description;
+        return "[" + getStatusIcon() + "] " + getDescription();
     }
 }
 

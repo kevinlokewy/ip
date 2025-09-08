@@ -1,3 +1,4 @@
+package augustine;
 import java.util.Scanner;
 import java.util.ArrayList;
 
@@ -128,7 +129,7 @@ public class Augustine {
 
 
     private static void handleEvent(String argument, ArrayList<Task> tasks) throws AugustineException {
-        if (!argument.isEmpty() && argument.contains("/from") && argument.contains("/to")) {
+        if (argument.contains("/from") && argument.contains("/to")) {
             String[] eventParts = argument.split("/from", 2);
             String description = eventParts[0].trim();
             String[] timeParts = eventParts[1].split("/to", 2);
@@ -143,7 +144,7 @@ public class Augustine {
     }
 
     private static void handleDeadline(String argument, ArrayList<Task> tasks) throws AugustineException {
-        if (!argument.isEmpty() && argument.contains("/by")) {
+        if (argument.contains("/by")) {
             String[] deadlineParts = argument.split("/by", 2);
             String description = deadlineParts[0].trim();
             String by = deadlineParts[1].trim();
