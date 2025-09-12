@@ -5,6 +5,7 @@
 
 #class files
 *.class
+*.jar
 
 # Gradle build files
 /.gradle/
