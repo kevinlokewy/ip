@@ -30,6 +30,8 @@ public class Task {
     public String toString() {
         return "[" + getStatusIcon() + "] " + getDescription();
     }
+
+    public boolean isDone(){
+        return isDone;
+    }
 }
-
-

@@ -1,15 +1,22 @@
 package augustine;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Augustine {
 
     public static final String NOT_DONE_ICON = " ";
     public static final String DONE_ICON = "X";
+    private static final String FILE_PATH = "./data/augustine.txt";
 
     public static void main(String[] args) {
         Scanner line = new Scanner(System.in);
-        ArrayList<Task> tasks = new ArrayList<>();
+        ArrayList<Task> tasks = loadTasks();
         printGreeting();
 
         while (true) {
@@ -36,22 +43,31 @@ public class Augustine {
 
                 case "todo":
                     handleToDo(argument, tasks);  // handle "todo" command
+                    saveTasks(tasks); // === LEVEL 7 CHANGE ===
                     break;
 
                 case "deadline":
                     handleDeadline(argument, tasks); // handle "deadline" command
+                    saveTasks(tasks); // === LEVEL 7 CHANGE ===
                     break;
 
                 case "event":
                     handleEvent(argument, tasks);  // handle "event" command
+                    saveTasks(tasks); // === LEVEL 7 CHANGE ===
                     break;
 
                 case "mark":
                     handleMark(argument, tasks); // handle "mark" command
+                    saveTasks(tasks); // === LEVEL 7 CHANGE ===
                     break;
 
                 case "unmark":
                     handleUnmark(argument, tasks);  // handle "unmark" command
+                    saveTasks(tasks); // === LEVEL 7 CHANGE ===
+                    break;
+                case "delete":
+                    handleDelete(argument, tasks);
+                    saveTasks(tasks); // === LEVEL 7 CHANGE ===
                     break;
 
                 default:
@@ -63,9 +79,112 @@ public class Augustine {
         }
     }
 
+
     // HELPER FUNCTIONS
 
-    private static void handleUnmark(String argument, ArrayList<Task> tasks) throws AugustineException{
+    private static ArrayList<Task> loadTasks() {
+        ArrayList<Task> tasks = new ArrayList<>();
+        try {
+            File folder = new File("./data");
+            if (!folder.exists()) {
+                boolean created = folder.mkdirs();
+                if (!created) {
+                    System.out.println("Warning: failed to create data folder.");
+                }
+            }
+
+
+            File file = new File(FILE_PATH);
+            if (!file.exists()) {
+                try {
+                    boolean created = file.createNewFile();
+                    if (!created) {
+                        System.out.println("Warning: could not create file " + FILE_PATH);
+                    }
+                } catch (IOException e) {
+                    System.out.println("Error creating file: " + e.getMessage());
+                }
+            }
+
+
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            while ((line = br.readLine()) != null) {
+                Task task = parseTaskFromFile(line);
+                if (task != null) tasks.add(task);
+            }
+            br.close();
+        } catch (IOException e) {
+            System.out.println("Error loading tasks: " + e.getMessage());
+        }
+        return tasks;
+    }
+
+    // Save tasks to file
+    private static void saveTasks(ArrayList<Task> tasks) {
+        try {
+            File folder = new File("./data");
+            if (!folder.exists()) {
+                boolean created = folder.mkdirs();
+                if (!created) {
+                    System.out.println("Warning: failed to create data folder.");
+                }
+            }
+            BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_PATH));
+            for (Task task : tasks) {
+                bw.write(formatTaskForFile(task));
+                bw.newLine();
+            }
+            bw.close();
+        } catch (IOException e) {
+            System.out.println("Error saving tasks: " + e.getMessage());
+        }
+    }
+
+    // Convert a task to a string to store in the file
+    private static String formatTaskForFile(Task task) {
+        String type = task instanceof Todo ? "T" :
+                task instanceof Deadline ? "D" : "E";
+        String done = task.getStatusIcon().equals(DONE_ICON) ? "1" : "0";
+        String description = task.getDescription();
+
+        if (task instanceof Deadline) {
+            return type + " | " + done + " | " + description + " | " + ((Deadline) task).getBy();
+        } else if (task instanceof Event) {
+            return type + " | " + done + " | " + description + " | " + ((Event) task).getFrom() + " | " + ((Event) task).getTo();
+        } else { // Todo
+            return type + " | " + done + " | " + description;
+        }
+    }
+
+    // Parse a line from file back into a Task object
+    private static Task parseTaskFromFile(String line) {
+        String[] parts = line.split(" \\| ");
+        String type = parts[0];
+        boolean isDone = parts[1].equals("1");
+        String description = parts[2];
+
+        Task task = null;
+        switch (type) {
+        case "T":
+            task = new Todo(description);
+            break;
+        case "D":
+            task = new Deadline(description, parts[3]);
+            break;
+        case "E":
+            task = new Event(description, parts[3], parts[4]);
+            break;
+        }
+
+        if (task != null && isDone) {
+            task.markAsDone();
+        }
+
+        return task;
+    }
+
+    private static void handleUnmark(String argument, ArrayList<Task> tasks) throws AugustineException {
         if (argument.isEmpty()) {
             throw new AugustineException("Please provide a task number!");
 
@@ -96,7 +215,7 @@ public class Augustine {
         }
     }
 
-    private static void handleMark(String argument, ArrayList<Task> tasks) throws AugustineException{
+    private static void handleMark(String argument, ArrayList<Task> tasks) throws AugustineException {
         if (argument.isEmpty()) {
             throw new AugustineException("Please provide a task number!");
         }
@@ -215,5 +334,26 @@ public class Augustine {
         System.out.println(" Bye. Hope to see you again soon!");
         System.out.println("____________________________________________________________");
     }
-}
 
+    private static void handleDelete(String argument, ArrayList<Task> tasks) throws AugustineException {
+        if (argument.isEmpty()) {
+            throw new AugustineException("Please provide a task number to delete!");
+        }
+        try {
+            int index = Integer.parseInt(argument) - 1; // convert to 0-based
+            if (index < 0 || index >= tasks.size()) {
+                throw new AugustineException("This task doesn't exist!");
+            }
+
+            Task removed = tasks.remove(index); // remove task from list
+            System.out.println("____________________________________________________________");
+            System.out.println("Noted. I've removed this task:");
+            System.out.println("  " + removed);
+            String taskWord = tasks.size() == 1 ? "task" : "tasks";
+            System.out.println("Now you have " + tasks.size() + " " + taskWord + " in the list.");
+            System.out.println("____________________________________________________________");
+        } catch (NumberFormatException e) {
+            throw new AugustineException("Please provide a valid task number!");
+        }
+    }
+}
