@@ -1,4 +1,5 @@
 package augustine;
+
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.BufferedReader;
@@ -87,8 +88,8 @@ public class Augustine {
         try {
             File folder = new File("./data");
             if (!folder.exists()) {
-                boolean created = folder.mkdirs();
-                if (!created) {
+                boolean isCreated = folder.mkdirs();
+                if (!isCreated) {
                     System.out.println("Warning: failed to create data folder.");
                 }
             }
@@ -111,7 +112,9 @@ public class Augustine {
             String line;
             while ((line = br.readLine()) != null) {
                 Task task = parseTaskFromFile(line);
-                if (task != null) tasks.add(task);
+                if (task != null) {
+                    tasks.add(task);
+                }
             }
             br.close();
         } catch (IOException e) {
@@ -192,27 +195,31 @@ public class Augustine {
         try {
             int index = Integer.parseInt(argument) - 1;
             if (index < 0 || index >= tasks.size()) {
-                System.out.println("____________________________________________________________");
+                printLine();
                 System.out.println("This task doesn't exist!");
-                System.out.println("____________________________________________________________");
+                printLine();
                 return;
             }
 
             Task task = tasks.get(index);
             if (task.getStatusIcon().equals(NOT_DONE_ICON)) {
-                System.out.println("____________________________________________________________");
+                printLine();
                 System.out.println("This item is already unmarked!");
-                System.out.println("____________________________________________________________");
+                printLine();
             } else {
                 task.markAsNotDone();
-                System.out.println("____________________________________________________________");
+                printLine();
                 System.out.println("OK, I've marked this task as not done yet:");
                 System.out.println("  " + task);
-                System.out.println("____________________________________________________________");
+                printLine();
             }
         } catch (NumberFormatException e) {
             throw new AugustineException("Please provide a valid task number!");
         }
+    }
+
+    private static void printLine() {
+        System.out.println("____________________________________________________________");
     }
 
     private static void handleMark(String argument, ArrayList<Task> tasks) throws AugustineException {
@@ -222,24 +229,24 @@ public class Augustine {
         try {
             int index = Integer.parseInt(argument) - 1;
             if (index < 0 || index >= tasks.size()) {
-                System.out.println("____________________________________________________________");
+                printLine();
                 System.out.println("This task doesn't exist!");
-                System.out.println("____________________________________________________________");
+                printLine();
                 return;
             }
 
             Task task = tasks.get(index);
             if (task.getStatusIcon().equals(DONE_ICON)) {
-                System.out.println("____________________________________________________________");
+                printLine();
                 System.out.println("This item is already marked!");
-                System.out.println("____________________________________________________________");
+                printLine();
 
             } else {
                 task.markAsDone();
-                System.out.println("____________________________________________________________");
+                printLine();
                 System.out.println("Nice! I've marked this task as done:");
                 System.out.println("  " + task);
-                System.out.println("____________________________________________________________");
+                printLine();
             }
         } catch (NumberFormatException e) {
             throw new AugustineException("Please provide a valid task number!");
@@ -286,7 +293,7 @@ public class Augustine {
     }
 
     private static void printTaskList(ArrayList<Task> tasks) {
-        System.out.println("____________________________________________________________");
+        printLine();
         if (tasks.isEmpty()) {
             System.out.println("No tasks added yet!");
         } else {
@@ -295,7 +302,7 @@ public class Augustine {
                 System.out.println(" " + (i + 1) + ". " + tasks.get(i));
             }
         }
-        System.out.println("____________________________________________________________");
+        printLine();
     }
 
     private static String getFirstWord(String[] parts) {
@@ -307,32 +314,32 @@ public class Augustine {
     }
 
     private static void printErrorMessage(String message) {
-        System.out.println("____________________________________________________________");
+        printLine();
         System.out.println(message);
-        System.out.println("____________________________________________________________");
+        printLine();
     }
 
     private static void printDescription(Task task, int totalTasks) {
         String taskWord = totalTasks == 1 ? "task" : "tasks"; // singular or plural
-        System.out.println("____________________________________________________________");
+        printLine();
         System.out.println("Okay! I've added the following task:");
         System.out.println("   " + task);
         System.out.println("You now have " + totalTasks + " " + taskWord + " in the list.");
-        System.out.println("____________________________________________________________");
+        printLine();
     }
 
 
     private static void printGreeting() {
-        System.out.println("____________________________________________________________");
+        printLine();
         System.out.println(" Hello! I'm Augustine");
         System.out.println(" What can I do for you?");
-        System.out.println("____________________________________________________________");
+        printLine();
     }
 
     private static void printBye() {
-        System.out.println("____________________________________________________________");
+        printLine();
         System.out.println(" Bye. Hope to see you again soon!");
-        System.out.println("____________________________________________________________");
+        printLine();
     }
 
     private static void handleDelete(String argument, ArrayList<Task> tasks) throws AugustineException {
@@ -346,12 +353,12 @@ public class Augustine {
             }
 
             Task removed = tasks.remove(index); // remove task from list
-            System.out.println("____________________________________________________________");
+            printLine();
             System.out.println("Noted. I've removed this task:");
             System.out.println("  " + removed);
             String taskWord = tasks.size() == 1 ? "task" : "tasks";
             System.out.println("Now you have " + tasks.size() + " " + taskWord + " in the list.");
-            System.out.println("____________________________________________________________");
+            printLine();
         } catch (NumberFormatException e) {
             throw new AugustineException("Please provide a valid task number!");
         }

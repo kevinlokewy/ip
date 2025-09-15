@@ -31,7 +31,7 @@ public class Task {
         return "[" + getStatusIcon() + "] " + getDescription();
     }
 
-    public boolean isDone(){
+    public boolean isDone() {
         return isDone;
     }
 }
