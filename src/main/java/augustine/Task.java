@@ -1,5 +1,10 @@
 package augustine;
 
+/**
+ * Represents a generic task. A task has a description and can be marked as done or not done.
+ * Specific task subclasses such as todo, event, deadline extend this class to add more details.
+ */
+
 public class Task {
     private final String description;
     private boolean isDone;

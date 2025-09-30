@@ -2,6 +2,10 @@ package augustine;
 
 import java.util.ArrayList;
 
+/**
+ * Provides an array of Task objects. Provides methods to add, delete, retrive and display tasks.
+ */
+
 public class TaskList {
     private final ArrayList<Task> tasks;
 
@@ -32,6 +36,11 @@ public class TaskList {
     public boolean isEmpty() {
         return tasks.isEmpty();
     }
+
+    /**
+     *Returns a string representation of the task list,
+     * where each task is numbered starting from 1.
+     */
 
     @Override
     public String toString() {

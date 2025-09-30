@@ -4,6 +4,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * This class represents a task with a deadline.
+ * A deadline has a task description followed by a date / time
+ */
+
 public class Deadline extends Task {
     private final String byString; // original input
     private final LocalDateTime by; // parsed datetime if possible

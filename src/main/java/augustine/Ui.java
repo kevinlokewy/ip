@@ -3,6 +3,12 @@ package augustine;
 import java.util.Scanner;
 import java.util.ArrayList;
 
+/**
+ * This class handles all user interaction.
+ * It is responsible for showing messages to the user
+ * and reading inputs from the user
+ */
+
 
 public class Ui {
     private final Scanner scanner = new Scanner(System.in);

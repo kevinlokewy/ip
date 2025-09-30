@@ -1,3 +1,8 @@
+/**
+ * This class represents a task with a duration. This type of task is called an event
+ * An event has a task description followed by the duration in the form of /from /to
+ */
+
 package augustine;
 
 import java.time.LocalDateTime;
