@@ -84,7 +84,7 @@ public class Augustine {
                 case "mark":
                     try {
                         int markIndex = Integer.parseInt(argument) - 1;
-                        if (markIndex < 0 || markIndex >= tasks.size()){
+                        if (markIndex < 0 || markIndex >= tasks.size()) {
                             throw new AugustineException("Oops! This task doesn't exist");
                         }
                         Task markTask = tasks.get(markIndex);
@@ -177,9 +177,10 @@ public class Augustine {
         String description = task.getDescription();
 
         if (task instanceof Deadline) {
-            return type + " | " + done + " | " + description + " | " + ((Deadline) task).getBy();
+            return type + " | " + done + " | " + description + " | " + ((Deadline) task).getByString();
         } else if (task instanceof Event) {
-            return type + " | " + done + " | " + description + " | " + ((Event) task).getFrom() + " | " + ((Event) task).getTo();
+            return type + " | " + done + " | " + description + " | "
+                    + ((Event) task).getFromString() + " | " + ((Event) task).getToString();
         } else {
             return type + " | " + done + " | " + description;
         }
