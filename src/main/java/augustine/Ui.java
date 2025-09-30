@@ -1,6 +1,8 @@
 package augustine;
 
 import java.util.Scanner;
+import java.util.ArrayList;
+
 
 public class Ui {
     private final Scanner scanner = new Scanner(System.in);
@@ -80,5 +82,18 @@ public class Ui {
         }
         showLine();
     }
+    public void showTaskMatches(ArrayList<Task> matchedTasks) {
+        showLine();
+        if (matchedTasks.isEmpty()) {
+            System.out.println("No matching tasks found!");
+        } else {
+            System.out.println("Here are the matching tasks in your list:");
+            for (int i = 0; i < matchedTasks.size(); i++) {
+                System.out.println(" " + (i + 1) + ". " + matchedTasks.get(i));
+            }
+        }
+        showLine();
+    }
 }
+
 

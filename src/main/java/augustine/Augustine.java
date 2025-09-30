@@ -130,6 +130,28 @@ public class Augustine {
                         throw new AugustineException("Please provide a valid task number!");
                     }
                     break;
+                case "find":
+                    try {
+                        if (argument.isEmpty()) {
+                            throw new AugustineException("Please provide a keyword to search for");
+                        }
+                        ArrayList<Task> matchedTasks = new ArrayList<>();
+                        for (int i = 0; i < tasks.size(); i += 1) {
+                            Task t = tasks.get(i);
+                            if (t.getDescription().toLowerCase().contains(argument.toLowerCase())) {
+                                matchedTasks.add(t);
+                            }
+                        }
+
+                        if (matchedTasks.isEmpty()) {
+                            throw new AugustineException("No tasks found with the keyword you searched for");
+                        }
+                        ui.showTaskMatches(matchedTasks);
+
+                    } catch (AugustineException e) {
+                        ui.showError(e.getMessage());
+                    }
+                    break;
 
                 default:
                     throw new AugustineException("I don't understand that command. Try: todo, deadline, event, list, mark, unmark, delete, bye");
