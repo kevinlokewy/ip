@@ -33,6 +33,28 @@ public class Augustine {
             String command = parts[0].toLowerCase();
             String argument = parts.length > 1 ? parts[1].trim() : "";
 
+            /**
+             * Handles user input commands and performs the corresponding actions on the task list.
+             * Supported commands include:
+             * <ul>
+             *   <li>bye – exits the program</li>
+             *   <li>list – displays all tasks</li>
+             *   <li>todo – adds a new Todo task</li>
+             *   <li>deadline – adds a new Deadline task with a /by date</li>
+             *   <li>event – adds a new Event task with /from and /to times</li>
+             *   <li>mark – marks a task as done</li>
+             *   <li>unmark – marks a task as not done</li>
+             *   <li>delete – removes a task from the list</li>
+             *   <li>find – searches for tasks containing a keyword</li>
+             * </ul>
+             *
+             * This block also handles exceptions, including:
+             * <ul>
+             *   <li>AugustineException – thrown for invalid input or missing arguments</li>
+             *   <li>NumberFormatException – thrown if a task index is not a valid integer</li>
+             * </ul>
+             */
+
             try {
                 switch (command) {
                 case "bye":
@@ -160,7 +182,18 @@ public class Augustine {
         new Augustine("data/augustine.txt").run();
     }
 
-    // Keeping these here for now (used by Storage)
+    /**
+     * Parses a single line from the data file (data.txt) and converts it into a Task object
+     * that the program can use. The line is expected to follow this format:
+     * <ul>
+     *   <li>Todo:     T | done | description</li>
+     *   <li>Deadline: D | done | description | by</li>
+     *   <li>Event:    E | done | description | from | to</li>
+     * </ul>
+     * The 'done' field should be "1" if the task is completed, otherwise "0".
+     *
+     * @return A Task object (Todo, Deadline, or Event) reconstructed from the line.
+     */
     public static Task parseTaskFromFile(String line) {
         String[] parts = line.split(" \\| ");
         String type = parts[0];
@@ -185,6 +218,19 @@ public class Augustine {
         }
         return task;
     }
+
+    /**
+     * Converts a Task object into a string formatted for storage in the data file (data.txt).
+     * The output format depends on the task type:
+     * <ul>
+     *   <li>Todo:     T | done | description</li>
+     *   <li>Deadline: D | done | description | by</li>
+     *   <li>Event:    E | done | description | from | to</li>
+     * </ul>
+     * The 'done' field will be "1" if the task is marked as completed, otherwise "0".
+     * This format matches the expected input for {@link #parseTaskFromFile(String)},
+     * enabling seamless serialization and deserialization of tasks.
+     */
 
     public static String formatTaskForFile(Task task) {
         String type = task instanceof Todo ? "T" :

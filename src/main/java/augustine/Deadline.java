@@ -23,7 +23,6 @@ public class Deadline extends Task {
         try {
             temp = LocalDateTime.parse(byInput, INPUT_FORMAT);
         } catch (DateTimeParseException e) {
-            // leave temp as null; we'll just use byString
         }
         this.by = temp;
     }
