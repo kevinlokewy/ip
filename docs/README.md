@@ -196,7 +196,9 @@ expected output:
 ____________________________________________________________
 
 Noted. I've removed this task:
+
 [D][X] CS2113 ip (by: 03 Oct 2025)
+
 Now you have 3 tasks in the list.
 
 ____________________________________________________________
@@ -210,7 +212,7 @@ Here are the tasks in your list:
 1. [E][ ] CS2113 Lecture (from: Friday 1600 to: 1800)
 2. [E][ ] CS2113 lecture (from: Oct 03 2025 16:15 to: Oct 03 2025 17:15)
 3. [T][ ] clean toilet
-4. 
+
 ____________________________________________________________
 
 
