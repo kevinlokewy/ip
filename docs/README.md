@@ -12,6 +12,8 @@ Specifically for the command event, dates and times in prose or in dd/mm/yyyy fo
 ### deadline
 This command allows users to input a task that has a deadline or due date.
 
+Format: deadline DESCRIPTION /by DATE 
+
 example input: 'deadline CS2113 ip /by 03 Oct 2025' 
 
 expected output:
@@ -28,6 +30,8 @@ ____________________________________________________________
 
 ### event
 This command allows users to input a task that has both a duration (i.e, a start and end time/date)
+
+Format: event DESCRIPTION /from DATE & TIME /to DATE & TIME
 
 example input: 'event CS2113 Lecture /from Friday 1600 /to 1800'
 
@@ -61,6 +65,8 @@ ____________________________________________________________
 ### todo
 The todo command enables users to input tasks that have no due date or start time attatched to it. 
 
+Format: todo DESCRIPTION
+
 example input: 'todo clean toilet'
 
 expected output: 
@@ -80,6 +86,8 @@ ____________________________________________________________
 
 The list command allows users to see the current list of tasks that the user had already input. Each task has a corresponding index which is based on the order of input (earliest to latest).
 
+Format: list
+
 example input: 'list'
 
 expected output: 
@@ -96,6 +104,9 @@ ____________________________________________________________
 
 ### mark
 The mark command allows users to keep track of which tasks have been completed. This is indicated by the [X] in the second box. The mark command marks based on the index of the task on the list. 
+'mark' can only take in 1 INDEX at a time.
+
+Format: mark INDEX
 
 For example, if this is the list prior to marking:
 
@@ -136,11 +147,14 @@ Here are the tasks in your list:
 ____________________________________________________________
 
 ### unmark
-The unmark command is exactly the same as mark, except that it unmarks the task instead of marking it as done. 
+The unmark command is exactly the same as mark, except that it unmarks the task instead of marking it as done. Similar to mark,
+'unmark' can only take in one INDEX at a time.
 
 ### find
 
-The find function allows users to search for a specific keyword in their list. The output will show all the tasks, with their corresponding indexes, to the user. 
+The find function allows users to search for a specific keyword in their list. The output will show all the tasks, with their corresponding indexes, to the user. The function can only take in 1 keyword at a time.
+
+Format: find KEYWORD
 
 example input: 'find CS2113'
 
@@ -157,7 +171,12 @@ ____________________________________________________________
 
 ### delete
 
-delete allows users to remove tasks from the list. Similar to mark and unmark, delete requires the corresponding index of the task that the user intends to remove. If this is the list prior to deleting: 
+delete allows users to remove tasks from the list. Similar to mark and unmark, delete requires the corresponding index of the task that the user intends to remove. Just like mark and unmark, delete can only delete 1 task at a time.
+
+Format: delete INDEX
+
+
+If this is the list prior to deleting: 
 
 ____________________________________________________________
 
@@ -197,6 +216,8 @@ ____________________________________________________________
 
 ### bye
 This command is used when the user wants to exit the programme. 
+
+Format: bye
 
 example input: 'bye'
 
