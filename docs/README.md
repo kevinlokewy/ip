@@ -152,7 +152,7 @@ The unmark command is exactly the same as mark, except that it unmarks the task 
 
 ### find
 
-The find function allows users to search for a specific keyword in their list. The output will show all the tasks, with their corresponding indexes, to the user. The function can only take in 1 keyword at a time.
+The find function allows users to search for a specific keyword in their list. The output will show all the tasks to the user. The function can only take in 1 keyword at a time.
 
 Format: find KEYWORD
 

@@ -29,12 +29,11 @@ public class Event extends Task {
         try {
             tempFrom = LocalDateTime.parse(fromInput, INPUT_FORMAT);
         } catch (DateTimeParseException e) {
-            // leave null
-        }
-        try {
+            // leave null because we want both DD/MM/YYYY format and String format to work
+        } try {
             tempTo = LocalDateTime.parse(toInput, INPUT_FORMAT);
         } catch (DateTimeParseException e) {
-            // leave null
+            // leave null because we want both DD/MM/YYYY format and String format to work
         }
 
         this.from = tempFrom;
