@@ -5,7 +5,7 @@ users keep track of tasks.
 
 Augustine uses several commands to enable users to distinguish between different tasks. For each task, the output in the terminal is as such: [%][ ] Description. Where % is either D,E or T representing deadline, event or todo respectively. The second box indicates whether the task is done or not done. This is represented by the presence of [X] in the case of done, and [ ] in the case of not done.
 
-Specifically for the command event, dates and times in prose or in dd/mm/yyyy format are accepted by the programme. Specific outputs are given as examples in the feature section.
+Specifically for the command event and deadline, dates and times in prose or in dd/mm/yyyy format are accepted by the programme. Specific outputs are given as examples in the feature section.
 
 ## Core Features of Augustine
 
