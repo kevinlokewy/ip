@@ -1,6 +1,11 @@
 /**
- * This class represents a task with a duration. This type of task is called an event
- * An event has a task description followed by the duration in the form of /from /to
+ *
+ * Represents a task with a specific duration or time period.
+ * An event task includes a description and a time range specified by start (from)
+ * and end (to) times, which can be provided in either a structured date format or as free text.
+ * <p>
+ * The class attempts to parse both the start and end times using the format "d/M/yyyy HHmm".
+ * If parsing fails for either time, the original string is stored and displayed as-is.
  */
 
 package augustine;
@@ -55,6 +60,15 @@ public class Event extends Task {
     public LocalDateTime getTo() {
         return to;
     }
+
+    /**
+     * Returns a string representation of this event task.
+     * The format is "[E][status] description (from: start_time to: end_time)" where each time
+     * is formatted as "MMM dd yyyy HH:mm" if successfully parsed, or the original
+     * input string otherwise.
+     *
+     * @return a formatted string representation of the event task
+     */
 
     @Override
     public String toString() {

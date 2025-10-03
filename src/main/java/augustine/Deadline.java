@@ -5,8 +5,12 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 /**
- * This class represents a task with a deadline.
- * A deadline has a task description followed by a date / time
+        * Represents a task with a deadline.
+        * A deadline task includes a description and a due date/time that can be specified
+ * in either a structured date format or as free text.
+        * <p>
+ * The class attempts to parse the deadline using the format "d/M/yyyy HHmm".
+        * If parsing fails, the original string is stored and displayed as-is.
  */
 
 public class Deadline extends Task {
@@ -35,7 +39,14 @@ public class Deadline extends Task {
     public LocalDateTime getBy() {
         return by;
     }
-
+    /**
+     * Returns a string representation of this deadline task.
+     * The format is "[D][status] description (by: deadline)" where the deadline
+     * is formatted as "MMM dd yyyy HH:mm" if successfully parsed, or the original
+     * input string otherwise.
+     *
+     * @return a formatted string representation of the deadline task
+     */
     @Override
     public String toString() {
         String display = (by != null) ? by.format(OUTPUT_FORMAT) : byString;
