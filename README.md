@@ -1,6 +1,8 @@
 # Augustine project template
 
-This is a project template for a greenfield Java project. It's named after the massively influencial theologian and Church father Saint Augustine. Given below are instructions on how to use it.
+This is a project template for a greenfield Java project. It's named after the massively influencial theologian and Church father Saint Augustine. Augustine's writings have impacted me deeply, I cannot recommend anyone enough to read both his classics "Confessions" and "City of God". 
+
+Given below are instructions on how to use it.
 
 ## Setting up in Intellij
 
